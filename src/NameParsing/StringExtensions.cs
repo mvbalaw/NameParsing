@@ -11,25 +11,14 @@ namespace NameParsing
 			{
 				return;
 			}
-			switch (result.MiddleName.ToLower())
+			var parts = result.MiddleName.Split(' ');
+			var middle = String.Join(" ", parts.TakeWhile(x => !x.Equals("de", StringComparison.OrdinalIgnoreCase)));
+			if (middle.Length == result.MiddleName.Length)
 			{
-				case "de":
-				case "de la":
-				case "de los":
-					result.Surname = result.MiddleName + " " + result.Surname;
-					result.MiddleName = null;
-					break;
-				default:
-					if (result.MiddleName.EndsWith(" De La", StringComparison.OrdinalIgnoreCase))
-					{
-						var surnamePrefixLength = "De La".Length;
-						var surnamePrefixIndex = result.MiddleName.Length - surnamePrefixLength;
-						var surnamePrefix = result.MiddleName.Substring(surnamePrefixIndex);
-						result.Surname = surnamePrefix + " " + result.Surname;
-						result.MiddleName = result.MiddleName.Substring(0, surnamePrefixIndex - 1);
-					}
-					break;
+				return;
 			}
+			result.Surname = result.MiddleName.Substring(middle.Length).TrimStart() + " " + result.Surname;
+			result.MiddleName = middle.Length == 0 ? null : middle;
 		}
 
 		private static string[] HandleNamePrefix(string[] nameParts, NameParts result)
