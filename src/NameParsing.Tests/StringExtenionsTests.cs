@@ -22,20 +22,6 @@ namespace NameParsing.Tests
 				             };
 				Verify(result, expect);
 			}
-	
-			[Test]
-			public void Given__John_Henry_De_La_Rosa__should_return_GivenName_John_Surname_MiddleName_Henry_De_La_Rosa()
-			{
-				const string input = "John Henry De La Rosa";
-				var result = input.ParseName();
-				var expect = new NameParts
-				             {
-					             GivenName = "John",
-					             MiddleName = "Henry",
-					             Surname = "De La Rosa"
-				             };
-				Verify(result, expect);
-			}
 
 			[Test]
 			public void Given__John_H_C_Smith__should_return_GivenName_John_MiddleName_H_C_Surname_Smith()
@@ -61,6 +47,20 @@ namespace NameParsing.Tests
 					             GivenName = "John",
 					             MiddleName = "H",
 					             Surname = "Smith"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
+			public void Given__John_Henry_De_La_Rosa__should_return_GivenName_John_Surname_MiddleName_Henry_De_La_Rosa()
+			{
+				const string input = "John Henry De La Rosa";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             MiddleName = "Henry",
+					             Surname = "De La Rosa"
 				             };
 				Verify(result, expect);
 			}
@@ -158,11 +158,27 @@ namespace NameParsing.Tests
 				Verify(result, expect);
 			}
 
+			[Test]
+			public void Given__Mr_DOT_John_Smith__should_return_Prefix_Mr_DOT_GivenName_John_Surname_Smith()
+			{
+				const string input = "Mr. John Smith";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             Prefix = "Mr.",
+					             GivenName = "John",
+					             Surname = "Smith"
+				             };
+				Verify(result, expect);
+			}
+
 			private static void Verify(NameParts result, NameParts expected)
 			{
+				result.Prefix.ShouldBeEqualTo(expected.Prefix);
 				result.GivenName.ShouldBeEqualTo(expected.GivenName);
 				result.MiddleName.ShouldBeEqualTo(expected.MiddleName);
 				result.Surname.ShouldBeEqualTo(expected.Surname);
+				result.Suffix.ShouldBeEqualTo(expected.Suffix);
 			}
 		}
 	}

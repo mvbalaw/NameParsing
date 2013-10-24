@@ -45,7 +45,13 @@ namespace NameParsing
 			}
 			else if (sections.Length > 1)
 			{
-				result.Suffix = sections.Last();
+				result.Suffix = sections.Last().Trim();
+			}
+
+			if (nameParts[0].EndsWith("."))
+			{
+				result.Prefix = nameParts[0];
+				nameParts = nameParts.Skip(1).ToArray();
 			}
 
 			result.GivenName = nameParts.First();
