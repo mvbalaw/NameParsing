@@ -79,6 +79,11 @@ namespace NameParsing
 			{
 				name = name.Substring(0, index);
 			}
+			index = name.IndexOf(" dba ", StringComparison.OrdinalIgnoreCase);
+			if (index != -1)
+			{
+				name = name.Substring(0, index);
+			}
 			index = name.IndexOf(" or ");
 			if (index != -1)
 			{
