@@ -9,6 +9,12 @@ namespace NameParsing
 		{
 			var result = new NameParts();
 
+			var index = name.IndexOf(" aka ", StringComparison.OrdinalIgnoreCase);
+			if (index != -1)
+			{
+				name = name.Substring(0, index);
+			}
+
 			var sections = name.Split(',');
 			var nameParts = sections.First().Split(' ');
 

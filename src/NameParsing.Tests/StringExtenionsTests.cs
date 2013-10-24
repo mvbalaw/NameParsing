@@ -79,6 +79,19 @@ namespace NameParsing.Tests
 				Verify(result, expect);
 			}
 
+			[Test]
+			public void Given__John_Smith_aka_John_Schmidt__should_return_GivenName_John_Surname_Smith()
+			{
+				const string input = "John Smith aka John Schmidt";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             Surname = "Smith"
+				             };
+				Verify(result, expect);
+			}
+
 			private static void Verify(NameParts result, NameParts expected)
 			{
 				result.GivenName.ShouldBeEqualTo(expected.GivenName);
