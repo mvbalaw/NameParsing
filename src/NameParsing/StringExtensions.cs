@@ -196,7 +196,7 @@ namespace NameParsing
 			nameParts = HandleNamePrefix(nameParts, result);
 			nameParts = HandleRunTogetherInitialsInGivenName(nameParts);
 
-			result.GivenName = nameParts.First();
+			result.GivenName = nameParts.Length > 1 ? nameParts.First() : null;
 			result.Surname = nameParts.Last();
 			if (nameParts.Length > 2)
 			{

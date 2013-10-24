@@ -425,6 +425,19 @@ namespace NameParsing.Tests
 				Verify(result, expect);
 			}
 
+			[Test]
+			public void Given__Mr_DOT_Smith__should_return_Prefix_Mr_DOT_Surname_Smith()
+			{
+				const string input = "Mr. Smith";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             Prefix = "Mr.",
+					             Surname = "Smith"
+				             };
+				Verify(result, expect);
+			}
+
 			private static void Verify(NameParts result, NameParts expected)
 			{
 				result.Prefix.ShouldBeEqualTo(expected.Prefix);
