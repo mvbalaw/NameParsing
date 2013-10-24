@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace NameParsing
 {
@@ -12,9 +13,9 @@ namespace NameParsing
 				                GivenName = parts.First(),
 				                Surname = parts.Last()
 			                };
-			if (parts.Length == 3)
+			if (parts.Length > 2)
 			{
-				nameParts.MiddleName = parts.Skip(1).First();
+				nameParts.MiddleName = String.Join(" ", parts.Skip(1).Take(parts.Length - 2).ToArray());
 			}
 			return nameParts;
 		}
