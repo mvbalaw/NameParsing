@@ -60,6 +60,15 @@ namespace NameParsing
 			return nameParts;
 		}
 
+		private static void HandleRunTogetherMiddleInitialAndSurname(NameParts result)
+		{
+			if (result.Surname.Length > 2 && result.Surname[1] == '.')
+			{
+				result.MiddleName = (result.MiddleName ?? "" + " " + result.Surname.Substring(0, 2)).Trim();
+				result.Surname = result.Surname.Substring(2);
+			}
+		}
+
 		private static void HandleSingleWordSurnamePrefix(NameParts result, ICollection<string> parts)
 		{
 			var indexOfDela = IndexOfAnyCaseInsensitive(parts, "dela", "del", "mc", "van");
@@ -194,6 +203,7 @@ namespace NameParsing
 				result.MiddleName = String.Join(" ", nameParts.Skip(1).Take(nameParts.Length - 2).ToArray());
 			}
 
+			HandleRunTogetherMiddleInitialAndSurname(result);
 			HandleMultiPartSurname(result);
 
 			return result;
