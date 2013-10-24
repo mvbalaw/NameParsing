@@ -7,17 +7,22 @@ namespace NameParsing
 	{
 		public static NameParts ParseName(this string name)
 		{
-			var parts = name.Split(' ');
-			var nameParts = new NameParts
-			                {
-				                GivenName = parts.First(),
-				                Surname = parts.Last()
-			                };
-			if (parts.Length > 2)
+			var sections = name.Split(',');
+			var nameParts = sections.First().Split(' ');
+			var result = new NameParts
+			             {
+				             GivenName = nameParts.First(),
+				             Surname = nameParts.Last()
+			             };
+			if (nameParts.Length > 2)
 			{
-				nameParts.MiddleName = String.Join(" ", parts.Skip(1).Take(parts.Length - 2).ToArray());
+				result.MiddleName = String.Join(" ", nameParts.Skip(1).Take(nameParts.Length - 2).ToArray());
 			}
-			return nameParts;
+			if (sections.Length > 1)
+			{
+				result.Suffix = sections.Last();
+			}
+			return result;
 		}
 	}
 }
