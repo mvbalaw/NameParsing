@@ -22,6 +22,20 @@ namespace NameParsing.Tests
 				             };
 				Verify(result, expect);
 			}
+	
+			[Test]
+			public void Given__John_Henry_De_La_Rosa__should_return_GivenName_John_Surname_MiddleName_Henry_De_La_Rosa()
+			{
+				const string input = "John Henry De La Rosa";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             MiddleName = "Henry",
+					             Surname = "De La Rosa"
+				             };
+				Verify(result, expect);
+			}
 
 			[Test]
 			public void Given__John_H_C_Smith__should_return_GivenName_John_MiddleName_H_C_Surname_Smith()
