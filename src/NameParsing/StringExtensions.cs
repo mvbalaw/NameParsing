@@ -113,6 +113,24 @@ namespace NameParsing
 			return -1;
 		}
 
+		private static int IndexOfAnyCaseInsensitive(this string item, params string[] values)
+		{
+			int? index = null;
+			foreach (var value in values)
+			{
+				var valueIndex = item.IndexOf(value, StringComparison.OrdinalIgnoreCase);
+				if (valueIndex == -1)
+				{
+					continue;
+				}
+				if (index == null || index.Value > valueIndex)
+				{
+					index = valueIndex;
+				}
+			}
+			return index == null ? -1 : index.Value;
+		}
+
 		private static int IndexOfCaseInsensitive(this IEnumerable<string> items, string value)
 		{
 			var index = 0;
@@ -129,7 +147,7 @@ namespace NameParsing
 
 		private static string NameWithoutAliases(string name)
 		{
-			var index = name.IndexOf(" aka ", StringComparison.OrdinalIgnoreCase);
+			var index = name.IndexOfAnyCaseInsensitive(" aka ", " a/k/a ", " dba ", " fka ");
 			if (index != -1)
 			{
 				name = name.Substring(0, index);
