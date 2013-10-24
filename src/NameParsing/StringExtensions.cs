@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 
 namespace NameParsing
 {
@@ -6,7 +6,12 @@ namespace NameParsing
 	{
 		public static NameParts ParseName(this string name)
 		{
-			throw new NotImplementedException();
+			var parts = name.Split(' ');
+			return new NameParts
+			       {
+				       GivenName = parts.First(),
+				       Surname = parts.Last()
+			       };
 		}
 	}
 }
