@@ -163,7 +163,7 @@ namespace NameParsing
 			name = NameWithoutAliases(name);
 
 			var sections = name.Split(',');
-			var nameParts = sections.First().Split(' ');
+			var nameParts = sections.First().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
 			nameParts = HandleNameSuffix(sections, result, nameParts);
 			nameParts = HandleNamePrefix(nameParts, result);
