@@ -22,7 +22,8 @@ namespace NameParsing
 		{
 			if (nameParts[0].EndsWith(".") &&
 				nameParts[0].Length > 2 &&
-				nameParts[0].IndexOf('.') == nameParts[0].Length - 1)
+				nameParts[0].IndexOf('.') == nameParts[0].Length - 1 &&
+				!nameParts[0].Equals("St.", StringComparison.OrdinalIgnoreCase))
 			{
 				result.Prefix = nameParts[0];
 				nameParts = nameParts.Skip(1).ToArray();
@@ -197,10 +198,15 @@ namespace NameParsing
 			nameParts = HandleRunTogetherInitialsInGivenName(nameParts);
 
 			result.GivenName = nameParts.Length > 1 ? nameParts.First() : null;
-			result.Surname = nameParts.Last();
-			if (nameParts.Length > 2)
+			var multiPartGivenName = (result.GivenName ?? "").Equals("St.", StringComparison.OrdinalIgnoreCase);
+			if (multiPartGivenName)
 			{
-				result.MiddleName = String.Join(" ", nameParts.Skip(1).Take(nameParts.Length - 2).ToArray());
+				result.GivenName += " " + nameParts[1];
+			}
+			result.Surname = nameParts.Last();
+			if (nameParts.Length > 2 + (multiPartGivenName ? 1 : 0))
+			{
+				result.MiddleName = String.Join(" ", nameParts.Skip(multiPartGivenName ? 2 : 1).Take(nameParts.Length - 2).ToArray());
 			}
 
 			HandleRunTogetherMiddleInitialAndSurname(result);
