@@ -71,7 +71,7 @@ namespace NameParsing
 
 		private static void HandleSingleWordSurnamePrefix(NameParts result, ICollection<string> parts)
 		{
-			var indexOfDela = IndexOfAnyCaseInsensitive(parts, "dela", "del", "mc", "st", "van");
+			var indexOfDela = IndexOfAnyCaseInsensitive(parts, "dela", "del", "mc", "st", "st.", "van");
 			if (indexOfDela != parts.Count - 1)
 			{
 				return;
