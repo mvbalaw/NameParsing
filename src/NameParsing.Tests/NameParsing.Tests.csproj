@@ -51,6 +51,7 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringExtenionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NameParsing\NameParsing.csproj">
