@@ -11,23 +11,24 @@ namespace NameParsing
 			{
 				return;
 			}
-			if (result.MiddleName.Equals("De La", StringComparison.OrdinalIgnoreCase))
+			switch (result.MiddleName.ToLower())
 			{
-				result.Surname = result.MiddleName + " " + result.Surname;
-				result.MiddleName = null;
-			}
-			else if (result.MiddleName.Equals("de", StringComparison.OrdinalIgnoreCase))
-			{
-				result.Surname = result.MiddleName + " " + result.Surname;
-				result.MiddleName = null;
-			}
-			else if (result.MiddleName.EndsWith(" De La", StringComparison.OrdinalIgnoreCase))
-			{
-				var surnamePrefixLength = "De La".Length;
-				var surnamePrefixIndex = result.MiddleName.Length - surnamePrefixLength;
-				var surnamePrefix = result.MiddleName.Substring(surnamePrefixIndex);
-				result.Surname = surnamePrefix + " " + result.Surname;
-				result.MiddleName = result.MiddleName.Substring(0, surnamePrefixIndex - 1);
+				case "de":
+				case "de la":
+				case "de los":
+					result.Surname = result.MiddleName + " " + result.Surname;
+					result.MiddleName = null;
+					break;
+				default:
+					if (result.MiddleName.EndsWith(" De La", StringComparison.OrdinalIgnoreCase))
+					{
+						var surnamePrefixLength = "De La".Length;
+						var surnamePrefixIndex = result.MiddleName.Length - surnamePrefixLength;
+						var surnamePrefix = result.MiddleName.Substring(surnamePrefixIndex);
+						result.Surname = surnamePrefix + " " + result.Surname;
+						result.MiddleName = result.MiddleName.Substring(0, surnamePrefixIndex - 1);
+					}
+					break;
 			}
 		}
 
