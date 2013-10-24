@@ -5,15 +5,25 @@ namespace NameParsing
 {
 	public static class StringExtensions
 	{
-		public static NameParts ParseName(this string name)
+		private static string NameWithoutAliases(string name)
 		{
-			var result = new NameParts();
-
 			var index = name.IndexOf(" aka ", StringComparison.OrdinalIgnoreCase);
 			if (index != -1)
 			{
 				name = name.Substring(0, index);
 			}
+			index = name.IndexOf(" a/k/a ", StringComparison.OrdinalIgnoreCase);
+			if (index != -1)
+			{
+				name = name.Substring(0, index);
+			}
+			return name;
+		}
+
+		public static NameParts ParseName(this string name)
+		{
+			var result = new NameParts();
+			name = NameWithoutAliases(name);
 
 			var sections = name.Split(',');
 			var nameParts = sections.First().Split(' ');
