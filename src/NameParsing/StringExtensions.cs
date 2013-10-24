@@ -5,6 +5,50 @@ namespace NameParsing
 {
 	public static class StringExtensions
 	{
+		private static void HandleMultiPartSurname(NameParts result)
+		{
+			if (result.MiddleName != null)
+			{
+				if (result.MiddleName.Equals("De La", StringComparison.OrdinalIgnoreCase))
+				{
+					result.Surname = result.MiddleName + " " + result.Surname;
+					result.MiddleName = null;
+				}
+				else if (result.MiddleName.EndsWith(" De La", StringComparison.OrdinalIgnoreCase))
+				{
+					var surnamePrefixLength = "De La".Length;
+					var surnamePrefixIndex = result.MiddleName.Length - surnamePrefixLength;
+					var surnamePrefix = result.MiddleName.Substring(surnamePrefixIndex);
+					result.Surname = surnamePrefix + " " + result.Surname;
+					result.MiddleName = result.MiddleName.Substring(0, surnamePrefixIndex - 1);
+				}
+			}
+		}
+
+		private static string[] HandleNamePrefix(string[] nameParts, NameParts result)
+		{
+			if (nameParts[0].EndsWith(".") && nameParts[0].Length > 2)
+			{
+				result.Prefix = nameParts[0];
+				nameParts = nameParts.Skip(1).ToArray();
+			}
+			return nameParts;
+		}
+
+		private static string[] HandleNameSuffix(string[] sections, NameParts result, string[] nameParts)
+		{
+			if (sections[0].EndsWith("."))
+			{
+				result.Suffix = nameParts.Last();
+				nameParts = nameParts.Take(nameParts.Length - 1).ToArray();
+			}
+			else if (sections.Length > 1)
+			{
+				result.Suffix = sections.Last().Trim();
+			}
+			return nameParts;
+		}
+
 		private static string NameWithoutAliases(string name)
 		{
 			var index = name.IndexOf(" aka ", StringComparison.OrdinalIgnoreCase);
@@ -38,21 +82,8 @@ namespace NameParsing
 			var sections = name.Split(',');
 			var nameParts = sections.First().Split(' ');
 
-			if (sections[0].EndsWith("."))
-			{
-				result.Suffix = nameParts.Last();
-				nameParts = nameParts.Take(nameParts.Length - 1).ToArray();
-			}
-			else if (sections.Length > 1)
-			{
-				result.Suffix = sections.Last().Trim();
-			}
-
-			if (nameParts[0].EndsWith("."))
-			{
-				result.Prefix = nameParts[0];
-				nameParts = nameParts.Skip(1).ToArray();
-			}
+			nameParts = HandleNameSuffix(sections, result, nameParts);
+			nameParts = HandleNamePrefix(nameParts, result);
 
 			result.GivenName = nameParts.First();
 			result.Surname = nameParts.Last();
@@ -60,22 +91,8 @@ namespace NameParsing
 			{
 				result.MiddleName = String.Join(" ", nameParts.Skip(1).Take(nameParts.Length - 2).ToArray());
 			}
-			if (result.MiddleName != null)
-			{
-				if (result.MiddleName.Equals("De La", StringComparison.OrdinalIgnoreCase))
-				{
-					result.Surname = result.MiddleName + " " + result.Surname;
-					result.MiddleName = null;
-				}
-				else if (result.MiddleName.EndsWith(" De La", StringComparison.OrdinalIgnoreCase))
-				{
-					var surnamePrefixLength = "De La".Length;
-					var surnamePrefixIndex = result.MiddleName.Length - surnamePrefixLength;
-					var surnamePrefix = result.MiddleName.Substring(surnamePrefixIndex);
-					result.Surname = surnamePrefix + " " + result.Surname;
-					result.MiddleName = result.MiddleName.Substring(0, surnamePrefixIndex - 1);
-				}
-			}
+
+			HandleMultiPartSurname(result);
 
 			return result;
 		}
