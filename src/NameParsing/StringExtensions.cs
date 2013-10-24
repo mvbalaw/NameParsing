@@ -14,7 +14,7 @@ namespace NameParsing
 			}
 			var parts = result.MiddleName.Split(' ');
 
-			HandleSurnamePrefixDela(result, parts);
+			HandleSingleWordSurnamePrefix(result, parts);
 			HandleSurnamePrefixDe(result, parts);
 		}
 
@@ -60,6 +60,18 @@ namespace NameParsing
 			return nameParts;
 		}
 
+		private static void HandleSingleWordSurnamePrefix(NameParts result, ICollection<string> parts)
+		{
+			var indexOfDela = IndexOfAnyCaseInsensitive(parts, "dela", "del");
+			if (indexOfDela != parts.Count - 1)
+			{
+				return;
+			}
+
+			result.Surname = parts.Last() + " " + result.Surname;
+			result.MiddleName = parts.Count == 1 ? null : String.Join(" ", parts.Take(parts.Count - 1));
+		}
+
 		private static void HandleSurnamePrefixDe(NameParts result, ICollection<string> parts)
 		{
 			var indexOfDe = IndexOfCaseInsensitive(parts, "de");
@@ -87,16 +99,18 @@ namespace NameParsing
 			result.MiddleName = parts.Count == 2 ? null : String.Join(" ", parts.Take(parts.Count - 2));
 		}
 
-		private static void HandleSurnamePrefixDela(NameParts result, ICollection<string> parts)
+		private static int IndexOfAnyCaseInsensitive(this IEnumerable<string> items, params string[] values)
 		{
-			var indexOfDela = IndexOfCaseInsensitive(parts, "dela");
-			if (indexOfDela != parts.Count - 1)
+			var index = 0;
+			foreach (var item in items)
 			{
-				return;
+				if (values.Any(x => x.Equals(item, StringComparison.OrdinalIgnoreCase)))
+				{
+					return index;
+				}
+				index++;
 			}
-
-			result.Surname = parts.Last() + " " + result.Surname;
-			result.MiddleName = parts.Count == 1 ? null : String.Join(" ", parts.Take(parts.Count - 1));
+			return -1;
 		}
 
 		private static int IndexOfCaseInsensitive(this IEnumerable<string> items, string value)
