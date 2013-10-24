@@ -101,8 +101,8 @@ namespace NameParsing
 			var nameParts = sections.First().Split(' ');
 
 			nameParts = HandleNameSuffix(sections, result, nameParts);
-			nameParts = HandleRunTogetherInitialsInGivenName(nameParts);
 			nameParts = HandleNamePrefix(nameParts, result);
+			nameParts = HandleRunTogetherInitialsInGivenName(nameParts);
 
 			result.GivenName = nameParts.First();
 			result.Surname = nameParts.Last();
