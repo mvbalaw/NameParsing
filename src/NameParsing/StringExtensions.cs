@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NameParsing
@@ -12,13 +13,29 @@ namespace NameParsing
 				return;
 			}
 			var parts = result.MiddleName.Split(' ');
-			var middle = String.Join(" ", parts.TakeWhile(x => !x.Equals("de", StringComparison.OrdinalIgnoreCase)));
-			if (middle.Length == result.MiddleName.Length)
+
+			var indexOfDe = IndexOfCaseInsensitive(parts, "de");
+			if (indexOfDe == -1 || indexOfDe < parts.Length - 1 - 2)
 			{
 				return;
 			}
-			result.Surname = result.MiddleName.Substring(middle.Length).TrimStart() + " " + result.Surname;
-			result.MiddleName = middle.Length == 0 ? null : middle;
+
+			if (indexOfDe == parts.Length - 1)
+			{
+				result.Surname = parts.Last() + " " + result.Surname;
+				result.MiddleName = parts.Length == 1 ? null : String.Join(" ", parts.Take(parts.Length - 1));
+				return;
+			}
+
+			// indexOfDe == parts.Length - 2
+			var lastLower = parts.Last().ToLower();
+			if (!new[] { "la", "los" }.Contains(lastLower))
+			{
+				return;
+			}
+
+			result.Surname = String.Join(" ", parts.Skip(parts.Length - 2).Take(2)) + " " + result.Surname;
+			result.MiddleName = parts.Length == 2 ? null : String.Join(" ", parts.Take(parts.Length - 2));
 		}
 
 		private static string[] HandleNamePrefix(string[] nameParts, NameParts result)
@@ -61,6 +78,20 @@ namespace NameParsing
 					.ToArray();
 			}
 			return nameParts;
+		}
+
+		private static int IndexOfCaseInsensitive(this IEnumerable<string> items, string value)
+		{
+			var index = 0;
+			foreach (var item in items)
+			{
+				if (item.Equals(value, StringComparison.OrdinalIgnoreCase))
+				{
+					return index;
+				}
+				index++;
+			}
+			return -1;
 		}
 
 		private static string NameWithoutAliases(string name)

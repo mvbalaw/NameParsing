@@ -38,6 +38,20 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__John_De_Jesus_Reyes__should_return_GivenName_John_MiddleName_De_Jesus_Surname_Reyes()
+			{
+				const string input = "John De Jesus Reyes";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             MiddleName = "De Jesus",
+					             Surname = "Reyes"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__John_De_La_Rosa__should_return_GivenName_John_Surname_De_La_Rosa()
 			{
 				const string input = "John De La Rosa";
