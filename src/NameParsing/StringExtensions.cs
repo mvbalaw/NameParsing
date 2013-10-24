@@ -54,6 +54,14 @@ namespace NameParsing
 			{
 				result.MiddleName = String.Join(" ", nameParts.Skip(1).Take(nameParts.Length - 2).ToArray());
 			}
+			if (result.MiddleName != null)
+			{
+				if (result.MiddleName.Equals("De La", StringComparison.OrdinalIgnoreCase))
+				{
+					result.Surname = result.MiddleName + " " + result.Surname;
+					result.MiddleName = null;
+				}
+			}
 
 			return result;
 		}
