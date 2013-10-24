@@ -17,7 +17,12 @@ namespace NameParsing
 			{
 				name = name.Substring(0, index);
 			}
-			return name;
+			index = name.IndexOf('(');
+			if (index != -1)
+			{
+				name = name.Substring(0, index);
+			}
+			return name.Trim();
 		}
 
 		public static NameParts ParseName(this string name)

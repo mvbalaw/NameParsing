@@ -80,6 +80,19 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__John_Smith_a_SLASH_k_SLASH_a_John_Schmidt__should_return_GivenName_John_Surname_Smith()
+			{
+				const string input = "John Smith a/k/a John Schmidt";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             Surname = "Smith"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__John_Smith_aka_John_Schmidt__should_return_GivenName_John_Surname_Smith()
 			{
 				const string input = "John Smith aka John Schmidt";
@@ -93,9 +106,9 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
-			public void Given__John_Smith_a_SLASH_k_SLASH_a_John_Schmidt__should_return_GivenName_John_Surname_Smith()
+			public void Given__John_Smith_LPAREN_John_Schmidt_RPAREN__should_return_GivenName_John_Surname_Smith()
 			{
-				const string input = "John Smith a/k/a John Schmidt";
+				const string input = "John Smith (John Schmidt)";
 				var result = input.ParseName();
 				var expect = new NameParts
 				             {
