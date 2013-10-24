@@ -27,7 +27,9 @@ namespace NameParsing
 
 		private static string[] HandleNamePrefix(string[] nameParts, NameParts result)
 		{
-			if (nameParts[0].EndsWith(".") && nameParts[0].Length > 2)
+			if (nameParts[0].EndsWith(".") &&
+				nameParts[0].Length > 2 &&
+				nameParts[0].IndexOf('.') == nameParts[0].Length - 1)
 			{
 				result.Prefix = nameParts[0];
 				nameParts = nameParts.Skip(1).ToArray();
@@ -45,6 +47,22 @@ namespace NameParsing
 			else if (sections.Length > 1)
 			{
 				result.Suffix = sections.Last().Trim();
+			}
+			return nameParts;
+		}
+
+		private static string[] HandleRunTogetherInitialsInGivenName(string[] nameParts)
+		{
+			if (nameParts[0].IndexOf('.') != nameParts[0].LastIndexOf('.'))
+			{
+				var dotted = nameParts[0]
+					.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries)
+					.Where(x => x.Length > 0)
+					.Select(x => x + ".");
+
+				nameParts = dotted
+					.Concat(nameParts.Skip(1))
+					.ToArray();
 			}
 			return nameParts;
 		}
@@ -83,6 +101,7 @@ namespace NameParsing
 			var nameParts = sections.First().Split(' ');
 
 			nameParts = HandleNameSuffix(sections, result, nameParts);
+			nameParts = HandleRunTogetherInitialsInGivenName(nameParts);
 			nameParts = HandleNamePrefix(nameParts, result);
 
 			result.GivenName = nameParts.First();
