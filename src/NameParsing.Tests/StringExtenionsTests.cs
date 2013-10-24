@@ -133,6 +133,19 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__John_Mc_Smith__should_return_GivenName_John_Surname_Mc_Smith()
+			{
+				const string input = "John Mc Smith";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             Surname = "Mc Smith"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__John_SPACE_SPACE_H_Smith__should_return_GivenName_John_MiddleName_H_Surname_Smith()
 			{
 				const string input = "John  H Smith";
@@ -201,32 +214,6 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
-			public void Given__John_Mc_Smith__should_return_GivenName_John_Surname_Mc_Smith()
-			{
-				const string input = "John Mc Smith";
-				var result = input.ParseName();
-				var expect = new NameParts
-				             {
-					             GivenName = "John",
-					             Surname = "Mc Smith"
-				             };
-				Verify(result, expect);
-			}
-
-			[Test]
-			public void Given__John_van_Smith__should_return_GivenName_John_Surname_van_Smith()
-			{
-				const string input = "John van Smith";
-				var result = input.ParseName();
-				var expect = new NameParts
-				             {
-					             GivenName = "John",
-					             Surname = "van Smith"
-				             };
-				Verify(result, expect);
-			}
-
-			[Test]
 			public void Given__John_Smith_a_SLASH_k_SLASH_a_John_Schmidt__should_return_GivenName_John_Surname_Smith()
 			{
 				const string input = "John Smith a/k/a John Schmidt";
@@ -256,6 +243,19 @@ namespace NameParsing.Tests
 			public void Given__John_Smith_dba_John_Schmidt__should_return_GivenName_John_Surname_Smith()
 			{
 				const string input = "John Smith dba John Schmidt";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             Surname = "Smith"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
+			public void Given__John_Smith_fdba_John_Schmidt__should_return_GivenName_John_Surname_Smith()
+			{
+				const string input = "John Smith fdba John Schmidt";
 				var result = input.ParseName();
 				var expect = new NameParts
 				             {
@@ -313,6 +313,19 @@ namespace NameParsing.Tests
 				             {
 					             GivenName = "John",
 					             Surname = "del Toro"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
+			public void Given__John_van_Smith__should_return_GivenName_John_Surname_van_Smith()
+			{
+				const string input = "John van Smith";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             Surname = "van Smith"
 				             };
 				Verify(result, expect);
 			}

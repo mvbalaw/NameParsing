@@ -147,7 +147,7 @@ namespace NameParsing
 
 		private static string NameWithoutAliases(string name)
 		{
-			var index = name.IndexOfAnyCaseInsensitive(" aka ", " a/k/a ", " dba ", " fka ");
+			var index = name.IndexOfAnyCaseInsensitive(" aka ", " a/k/a ", " dba ", " fdba ", " fka ");
 			if (index != -1)
 			{
 				name = name.Substring(0, index);
