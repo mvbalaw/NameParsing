@@ -6,6 +6,24 @@ namespace NameParsing
 {
 	public static class StringExtensions
 	{
+		private static void HandleDoubleWordSurnamePrefix(NameParts result, ICollection<string> parts)
+		{
+			var indexOfDe = IndexOfCaseInsensitive(parts, "de");
+			if (indexOfDe != parts.Count - 2)
+			{
+				return;
+			}
+
+			var lastLower = parts.Last().ToLower();
+			if (!new[] { "la", "los" }.Contains(lastLower))
+			{
+				return;
+			}
+
+			result.Surname = String.Join(" ", parts.Skip(parts.Count - 2).Take(2)) + " " + result.Surname;
+			result.MiddleName = parts.Count == 2 ? null : String.Join(" ", parts.Take(parts.Count - 2));
+		}
+
 		private static void HandleMultiPartSurname(NameParts result)
 		{
 			if (result.MiddleName == null)
@@ -15,7 +33,7 @@ namespace NameParsing
 			var parts = result.MiddleName.Split(' ');
 
 			HandleSingleWordSurnamePrefix(result, parts);
-			HandleSurnamePrefixDe(result, parts);
+			HandleDoubleWordSurnamePrefix(result, parts);
 		}
 
 		private static string[] HandleNamePrefix(string[] nameParts, NameParts result)
@@ -72,7 +90,7 @@ namespace NameParsing
 
 		private static void HandleSingleWordSurnamePrefix(NameParts result, ICollection<string> parts)
 		{
-			var indexOfDela = IndexOfAnyCaseInsensitive(parts, "dela", "del", "mc", "st", "st.", "van");
+			var indexOfDela = IndexOfAnyCaseInsensitive(parts, "de", "dela", "del", "mc", "st", "st.", "van");
 			if (indexOfDela != parts.Count - 1)
 			{
 				return;
@@ -80,33 +98,6 @@ namespace NameParsing
 
 			result.Surname = parts.Last() + " " + result.Surname;
 			result.MiddleName = parts.Count == 1 ? null : String.Join(" ", parts.Take(parts.Count - 1));
-		}
-
-		private static void HandleSurnamePrefixDe(NameParts result, ICollection<string> parts)
-		{
-			var indexOfDe = IndexOfCaseInsensitive(parts, "de");
-			if (indexOfDe == -1 ||
-				indexOfDe < parts.Count - 1 - 2)
-			{
-				return;
-			}
-
-			if (indexOfDe == parts.Count - 1)
-			{
-				result.Surname = parts.Last() + " " + result.Surname;
-				result.MiddleName = parts.Count == 1 ? null : String.Join(" ", parts.Take(parts.Count - 1));
-				return;
-			}
-
-			// indexOfDe == parts.Length - 2
-			var lastLower = parts.Last().ToLower();
-			if (!new[] { "la", "los" }.Contains(lastLower))
-			{
-				return;
-			}
-
-			result.Surname = String.Join(" ", parts.Skip(parts.Count - 2).Take(2)) + " " + result.Surname;
-			result.MiddleName = parts.Count == 2 ? null : String.Join(" ", parts.Take(parts.Count - 2));
 		}
 
 		private static int IndexOfAnyCaseInsensitive(this IEnumerable<string> items, params string[] values)
