@@ -38,6 +38,19 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__JOHN_SULLIV__should_return_GivenName_JOHN_Surname_SULLIV()
+			{
+				const string input = "JOHN SULLIV";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "JOHN",
+					             Surname = "SULLIV"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__J_DOT_H_DOT_Smith__should_return_GivenName_J_DOT_MiddleName_H_DOT_Surname_Smith()
 			{
 				const string input = "J.H. Smith";
