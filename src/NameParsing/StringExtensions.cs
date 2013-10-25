@@ -25,8 +25,8 @@ namespace NameParsing
 			}
 			var parts = result.MiddleName.Split(' ');
 
-			HandleSingleWordSurnamePrefix(result, parts);
 			HandleDoubleWordSurnamePrefix(result, parts);
+			HandleSingleWordSurnamePrefix(result, parts);
 		}
 
 		private static string[] HandleNamePrefix(string[] nameParts, NameParts result)
@@ -83,7 +83,7 @@ namespace NameParsing
 
 		private static void HandleSingleWordSurnamePrefix(NameParts result, ICollection<string> parts)
 		{
-			var indexOfPrefix = IndexOfAnyCaseInsensitive(parts, "de", "dela", "del", "le", "mc", "st", "st.", "van", "von");
+			var indexOfPrefix = IndexOfAnyCaseInsensitive(parts, "de", "dela", "del", "la", "le", "mc", "st", "st.", "van", "von");
 			if (indexOfPrefix != parts.Count - 1)
 			{
 				return;
