@@ -188,6 +188,20 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__John_Smith_III__should_return_GivenName_John_Surname_Smith_Suffix_III()
+			{
+				const string input = "John Smith III";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             Surname = "Smith",
+					             Suffix = "III"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__John_Smith_II__should_return_GivenName_John_Surname_Smith_Suffix_II()
 			{
 				const string input = "John Smith II";
@@ -197,6 +211,20 @@ namespace NameParsing.Tests
 					             GivenName = "John",
 					             Surname = "Smith",
 					             Suffix = "II"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
+			public void Given__John_Smith_IV__should_return_GivenName_John_Surname_Smith_Suffix_IV()
+			{
+				const string input = "John Smith IV";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             Surname = "Smith",
+					             Suffix = "IV"
 				             };
 				Verify(result, expect);
 			}
