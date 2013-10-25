@@ -51,7 +51,7 @@ namespace NameParsing
 
 		private static string[] HandleNameSuffix(IList<string> sections, NameParts result, string[] nameParts)
 		{
-			if (sections[0].EndsWith("."))
+			if (sections[0].EndsWith(".") || sections[0].EndsWith("II"))
 			{
 				result.Suffix = nameParts.Last();
 				nameParts = nameParts.Take(nameParts.Length - 1).ToArray();

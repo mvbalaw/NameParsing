@@ -188,6 +188,20 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__John_Smith_II__should_return_GivenName_John_Surname_Smith_Suffix_II()
+			{
+				const string input = "John Smith II";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             Surname = "Smith",
+					             Suffix = "II"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__John_Smith_Jr_DOT__should_return_GivenName_John_Surname_Smith_Suffix_Jr_DOT()
 			{
 				const string input = "John Smith Jr.";
