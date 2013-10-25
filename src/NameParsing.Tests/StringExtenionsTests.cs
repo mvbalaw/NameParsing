@@ -240,6 +240,19 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__John_Smijr__should_return_GivenName_John_Surname_Smijr()
+			{
+				const string input = "John Smijr";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             Surname = "Smijr"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__John_Smith_COMMA_Jr__should_return_GivenName_John_Surname_Smith_Suffix_Jr()
 			{
 				const string input = "John Smith, Jr";
@@ -543,6 +556,19 @@ namespace NameParsing.Tests
 				             {
 					             GivenName = "John",
 					             Surname = "St Smith"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
+			public void Given__John_Van_Der_Sharp__should_return_GivenName_John_Surname_Van_Der_Sharp()
+			{
+				const string input = "John Van Der Sharp";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             Surname = "Van Der Sharp"
 				             };
 				Verify(result, expect);
 			}

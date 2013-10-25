@@ -8,14 +8,7 @@ namespace NameParsing
 	{
 		private static void HandleDoubleWordSurnamePrefix(NameParts result, ICollection<string> parts)
 		{
-			var indexOfDe = IndexOfCaseInsensitive(parts, "de");
-			if (indexOfDe < 0 || indexOfDe != parts.Count - 2)
-			{
-				return;
-			}
-
-			var lastLower = parts.Last().ToLower();
-			if (!new[] { "la", "le", "los" }.Contains(lastLower))
+			if (!IsTwoPartSurnamePrefix(parts))
 			{
 				return;
 			}
@@ -51,7 +44,7 @@ namespace NameParsing
 
 		private static string[] HandleNameSuffix(IList<string> sections, NameParts result, string[] nameParts)
 		{
-			if (new[] { ".", " II", " III", " IV", "Jr", "Sr", " V" }.Any(x => sections[0].EndsWith(x, StringComparison.OrdinalIgnoreCase)))
+			if (new[] { ".", " II", " III", " IV", " Jr", "Sr", " V" }.Any(x => sections[0].EndsWith(x, StringComparison.OrdinalIgnoreCase)))
 			{
 				result.Suffix = nameParts.Last();
 				nameParts = nameParts.Take(nameParts.Length - 1).ToArray();
@@ -144,6 +137,43 @@ namespace NameParsing
 				index++;
 			}
 			return -1;
+		}
+
+		private static bool IsDeXSurnamePrefix(ICollection<string> parts)
+		{
+			var indexOfDe = IndexOfCaseInsensitive(parts, "de");
+			if (indexOfDe < 0 || indexOfDe != parts.Count - 2)
+			{
+				return false;
+			}
+
+			var lastLower = parts.Last().ToLower();
+			if (!new[] { "la", "le", "los" }.Contains(lastLower))
+			{
+				return false;
+			}
+			return true;
+		}
+
+		private static bool IsTwoPartSurnamePrefix(ICollection<string> parts)
+		{
+			return IsDeXSurnamePrefix(parts) || IsVanXSurnamePrefix(parts);
+		}
+
+		private static bool IsVanXSurnamePrefix(ICollection<string> parts)
+		{
+			var indexOfDe = IndexOfCaseInsensitive(parts, "van");
+			if (indexOfDe < 0 || indexOfDe != parts.Count - 2)
+			{
+				return false;
+			}
+
+			var lastLower = parts.Last().ToLower();
+			if (!new[] { "der" }.Contains(lastLower))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		private static string NameWithoutAliases(string name)
