@@ -9,7 +9,7 @@ namespace NameParsing
 		private static void HandleDoubleWordSurnamePrefix(NameParts result, ICollection<string> parts)
 		{
 			var indexOfDe = IndexOfCaseInsensitive(parts, "de");
-			if (indexOfDe != parts.Count - 2)
+			if (indexOfDe < 0 || indexOfDe != parts.Count - 2)
 			{
 				return;
 			}
@@ -90,8 +90,8 @@ namespace NameParsing
 
 		private static void HandleSingleWordSurnamePrefix(NameParts result, ICollection<string> parts)
 		{
-			var indexOfDela = IndexOfAnyCaseInsensitive(parts, "de", "dela", "del", "mc", "st", "st.", "van", "von");
-			if (indexOfDela != parts.Count - 1)
+			var indexOfPrefix = IndexOfAnyCaseInsensitive(parts, "de", "dela", "del", "le", "mc", "st", "st.", "van", "von");
+			if (indexOfPrefix != parts.Count - 1)
 			{
 				return;
 			}
