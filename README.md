@@ -5,15 +5,21 @@ NameParsing
 A library for structurally splitting single field name data into multiple fields 
 (prefix, given, middle, surname, and suffix)
 
-Most name parts are determined by markers (".", ",")
-Surnames with prefixes are supported 
-   "de", "de la", "de los", "von", etc
-Some special cases are handled positionally 
-   suffixes without comma: II, III, etc
-   split surname: Mc Cormick
-   split given name: St. John
-When name variation acronyms are detected, only the first name variation is parsed
-   acronyms include: aka, fka, dba, nka, a/k/a
+   Most name parts are determined by markers (".", ",")
+   
+   Surnames with prefixes are supported 
+   
+      "de", "de la", "de los", "von", etc
+	  
+   Some special cases are handled positionally 
+   
+      suffixes without comma: II, III, etc
+      split surname: Mc Cormick
+      split given name: St. John
+	  
+   When name variation acronyms are detected, only the first name variation is parsed
+   
+      acronyms include: aka, fka, dba, nka, a/k/a
    
 ### Examples
 
