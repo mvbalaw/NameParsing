@@ -169,7 +169,7 @@ namespace NameParsing
 			}
 
 			var lastLower = parts.Last().ToLower();
-			if (!new[] { "der" }.Contains(lastLower))
+			if (!new[] { "de", "der" }.Contains(lastLower))
 			{
 				return false;
 			}
