@@ -11,6 +11,19 @@ namespace NameParsing.Tests
 		public class When_asked_to_parse_a_name
 		{
 			[Test]
+			public void Given__JOHN_KAIDII__should_return_GivenName_JOHN_Surname_KAIDII()
+			{
+				const string input = "JOHN KAIDII";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "JOHN",
+					             Surname = "KAIDII"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__JOHN_SLODOV__should_return_GivenName_JOHN_Surname_SLODOV()
 			{
 				const string input = "JOHN SLODOV";
