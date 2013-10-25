@@ -15,7 +15,7 @@ namespace NameParsing
 			}
 
 			var lastLower = parts.Last().ToLower();
-			if (!new[] { "la", "los" }.Contains(lastLower))
+			if (!new[] { "la", "le", "los" }.Contains(lastLower))
 			{
 				return;
 			}
