@@ -58,7 +58,7 @@ namespace NameParsing
 			}
 			else if (sections.Count > 1)
 			{
-				result.Suffix = sections.Last().Trim();
+				result.Suffix = String.Join(", ", sections.Skip(1).Select(x => x.Trim()));
 			}
 			return nameParts;
 		}

@@ -188,6 +188,20 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__John_Smith_COMMA_MD_COMMA_PA__should_return_GivenName_John_Surname_Smith_Suffix_MD_COMMA_PA()
+			{
+				const string input = "John Smith, MD, PA";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             Surname = "Smith",
+					             Suffix = "MD, PA"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__John_Smith_III__should_return_GivenName_John_Surname_Smith_Suffix_III()
 			{
 				const string input = "John Smith III";
