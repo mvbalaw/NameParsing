@@ -430,6 +430,19 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__John_Smith_nka_John_Schmidt__should_return_GivenName_John_Surname_Smith()
+			{
+				const string input = "John Smith nka John Schmidt";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             Surname = "Smith"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__John_Smith_or_John_Schmidt__should_return_GivenName_John_Surname_Smith()
 			{
 				const string input = "John Smith or John Schmidt";
