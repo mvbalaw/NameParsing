@@ -318,19 +318,6 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
-			public void Given__John_San_Angelo__should_return_GivenName_John_Surname_San_Angelo()
-			{
-				const string input = "John San Angelo";
-				var result = input.ParseName();
-				var expect = new NameParts
-				             {
-					             GivenName = "John",
-					             Surname = "San Angelo"
-				             };
-				Verify(result, expect);
-			}
-
-			[Test]
 			public void Given__John_Smijr__should_return_GivenName_John_Surname_Smijr()
 			{
 				const string input = "John Smijr";
@@ -699,6 +686,19 @@ namespace NameParsing.Tests
 				             {
 					             GivenName = "John",
 					             Surname = "de Jesus"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
+			public void Given__John_de_San_Angelo__should_return_GivenName_John_Surname_de_San_Angelo()
+			{
+				const string input = "John de San Angelo";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             Surname = "de San Angelo"
 				             };
 				Verify(result, expect);
 			}
