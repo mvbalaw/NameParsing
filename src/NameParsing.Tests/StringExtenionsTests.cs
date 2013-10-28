@@ -237,6 +237,20 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__John_H_O_Donnell__should_return_GivenName_John_MiddleName_H_Surname_O_Donnell()
+			{
+				const string input = "John H O Donnell";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             MiddleName = "H",
+					             Surname = "O Donnell"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__John_H_Smith__should_return_GivenName_John_MiddleName_H_Surname_Smith()
 			{
 				const string input = "John H Smith";
@@ -312,6 +326,20 @@ namespace NameParsing.Tests
 				             {
 					             GivenName = "John",
 					             Surname = "Mc Smith"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
+			public void Given__John_O_Donnell__should_return_GivenName_John_MiddleName_O_Surname_Donnell()
+			{
+				const string input = "John O Donnell";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             MiddleName = "O",
+					             Surname = "Donnell"
 				             };
 				Verify(result, expect);
 			}
@@ -764,20 +792,6 @@ namespace NameParsing.Tests
 				             {
 					             GivenName = "John",
 					             Surname = "Le Toro"
-				             };
-				Verify(result, expect);
-			}
-
-			[Test]
-			public void Given__John_H_O_Donnell__should_return_GivenName_John_MiddleName_H_Surname_O_Donnell()
-			{
-				const string input = "John H O Donnell";
-				var result = input.ParseName();
-				var expect = new NameParts
-				             {
-					             GivenName = "John",
-					             MiddleName = "H",
-					             Surname = "O Donnell"
 				             };
 				Verify(result, expect);
 			}
