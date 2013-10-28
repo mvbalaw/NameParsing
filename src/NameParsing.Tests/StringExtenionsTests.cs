@@ -905,6 +905,20 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__De_la_Rosa_Henry_Smith__should_return_GivenName_De_la_Rosa_MiddleName_Henry_Surname_Smith()
+			{
+				const string input = "De la Rosa Henry Smith";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+								 GivenName = "De la Rosa",
+					             MiddleName = "Henry",
+					             Surname = "Smith"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__San_Juan_Smith__should_return_GivenName_San_Juan_Surname_Smith()
 			{
 				const string input = "San Juan Smith";

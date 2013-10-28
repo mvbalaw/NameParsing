@@ -6,6 +6,8 @@ namespace NameParsing
 {
 	public static class StringExtensions
 	{
+		private static readonly string[] SingleWordNamePrefixes = { "al", "da", "de", "dela", "del", "di", "du", "el", "la", "le", "lo", "mac", "mc", "saint", "san", "st", "st.", "van", "von" };
+
 		private static void HandleDoubleWordSurnamePrefix(NameParts result, ICollection<string> parts)
 		{
 			if (!IsTwoPartSurnamePrefix(parts))
@@ -17,16 +19,26 @@ namespace NameParsing
 			result.MiddleName = parts.Count == 2 ? null : String.Join(" ", parts.Take(parts.Count - 2));
 		}
 
-		private static bool HandleMultiPartGivenName(NameParts result, string[] nameParts)
+		private static string[] HandleMultiPartGivenName(NameParts result, string[] nameParts)
 		{
 			var given = result.GivenName ?? "";
 
-			var multiPartGivenName = new[] { "san", "st." }.Any(x => given.Equals(x, StringComparison.OrdinalIgnoreCase));
-			if (multiPartGivenName)
+			var isTwoWordNamePrefix = SingleWordNamePrefixes.Any(x => given.Equals(x, StringComparison.OrdinalIgnoreCase));
+			if (isTwoWordNamePrefix)
 			{
-				result.GivenName += " " + nameParts[1];
+				var threeWordSurnamePrefix = new[] { given, nameParts[0] };
+				if (IsTwoPartSurnamePrefix(threeWordSurnamePrefix))
+				{
+					result.GivenName = given + " " + String.Join(" ", nameParts.Take(2));
+					nameParts = nameParts.Skip(2).ToArray();
+				}
+				else
+				{
+					result.GivenName += " " + nameParts.First();
+					nameParts = nameParts.Skip(1).ToArray();
+				}
 			}
-			return multiPartGivenName;
+			return nameParts;
 		}
 
 		private static void HandleMultiPartSurname(NameParts result)
@@ -103,7 +115,7 @@ namespace NameParsing
 
 		private static void HandleSingleWordSurnamePrefix(NameParts result, ICollection<string> parts)
 		{
-			var indexOfPrefix = IndexOfAnyCaseInsensitive(parts, "al", "da", "de", "dela", "del", "di", "du", "el", "la", "le", "lo", "mac", "mc", "saint", "san", "st", "st.", "van", "von");
+			var indexOfPrefix = IndexOfAnyCaseInsensitive(parts, SingleWordNamePrefixes);
 			if (indexOfPrefix != parts.Count - 1)
 			{
 				return;
@@ -244,13 +256,17 @@ namespace NameParsing
 			nameParts = HandleNamePrefix(nameParts, result);
 			nameParts = HandleRunTogetherInitialsInGivenName(nameParts);
 
-			result.GivenName = nameParts.Length > 1 ? nameParts.First() : null;
-			var multiPartGivenName = HandleMultiPartGivenName(result, nameParts);
-			result.Surname = nameParts.Last();
-			if (nameParts.Length > 2 + (multiPartGivenName ? 1 : 0))
+			if (nameParts.Length > 1)
 			{
-				var middleNameLength = nameParts.Length - 2 - (multiPartGivenName ? 1 : 0);
-				result.MiddleName = String.Join(" ", nameParts.Skip(multiPartGivenName ? 2 : 1).Take(middleNameLength).ToArray());
+				result.GivenName = nameParts.First();
+				nameParts = nameParts.Skip(1).ToArray();
+				nameParts = HandleMultiPartGivenName(result, nameParts);
+			}
+
+			result.Surname = nameParts.Last();
+			if (nameParts.Length > 1)
+			{
+				result.MiddleName = String.Join(" ", nameParts.Take(nameParts.Length - 1).ToArray());
 			}
 
 			HandleRunTogetherMiddleInitialAndSurname(result);
