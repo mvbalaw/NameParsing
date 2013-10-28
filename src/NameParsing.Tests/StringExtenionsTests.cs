@@ -836,6 +836,19 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__Lt_DOT_Col_DOT_Smith__should_return_Prefix_Lt_DOT_Col_DOT_Surname_Smith()
+			{
+				const string input = "Lt. Col. Smith";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             Prefix = "Lt. Col.",
+					             Surname = "Smith"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__Mr_DOT_J_DOT_H_DOT_Smith__should_return_Prefix_Mr_DOT_GivenName_J_DOT_MiddleName_H_DOT_Surname_Smith()
 			{
 				const string input = "Mr. J.H. Smith";

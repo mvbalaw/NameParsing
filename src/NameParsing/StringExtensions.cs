@@ -32,12 +32,19 @@ namespace NameParsing
 
 		private static string[] HandleNamePrefix(string[] nameParts, NameParts result)
 		{
-			if (nameParts[0].EndsWith(".") &&
+			while (nameParts[0].EndsWith(".") &&
 				nameParts[0].Length > 2 &&
 				nameParts[0].IndexOf('.') == nameParts[0].Length - 1 &&
 				!nameParts[0].Equals("St.", StringComparison.OrdinalIgnoreCase))
 			{
-				result.Prefix = nameParts[0];
+				if (!String.IsNullOrEmpty(result.Prefix))
+				{
+					result.Prefix += " " + nameParts[0];
+				}
+				else
+				{
+					result.Prefix = nameParts[0];
+				}
 				nameParts = nameParts.Skip(1).ToArray();
 			}
 			return nameParts;
