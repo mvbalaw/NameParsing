@@ -17,6 +17,18 @@ namespace NameParsing
 			result.MiddleName = parts.Count == 2 ? null : String.Join(" ", parts.Take(parts.Count - 2));
 		}
 
+		private static bool HandleMultiPartGivenName(NameParts result, string[] nameParts)
+		{
+			var given = result.GivenName ?? "";
+
+			var multiPartGivenName = new[] { "san", "st." }.Any(x => given.Equals(x, StringComparison.OrdinalIgnoreCase));
+			if (multiPartGivenName)
+			{
+				result.GivenName += " " + nameParts[1];
+			}
+			return multiPartGivenName;
+		}
+
 		private static void HandleMultiPartSurname(NameParts result)
 		{
 			if (result.MiddleName == null)
@@ -233,11 +245,7 @@ namespace NameParsing
 			nameParts = HandleRunTogetherInitialsInGivenName(nameParts);
 
 			result.GivenName = nameParts.Length > 1 ? nameParts.First() : null;
-			var multiPartGivenName = (result.GivenName ?? "").Equals("St.", StringComparison.OrdinalIgnoreCase);
-			if (multiPartGivenName)
-			{
-				result.GivenName += " " + nameParts[1];
-			}
+			var multiPartGivenName = HandleMultiPartGivenName(result, nameParts);
 			result.Surname = nameParts.Last();
 			if (nameParts.Length > 2 + (multiPartGivenName ? 1 : 0))
 			{
