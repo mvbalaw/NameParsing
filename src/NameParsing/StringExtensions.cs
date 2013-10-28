@@ -249,7 +249,8 @@ namespace NameParsing
 			result.Surname = nameParts.Last();
 			if (nameParts.Length > 2 + (multiPartGivenName ? 1 : 0))
 			{
-				result.MiddleName = String.Join(" ", nameParts.Skip(multiPartGivenName ? 2 : 1).Take(nameParts.Length - 2).ToArray());
+				var middleNameLength = nameParts.Length - 2 - (multiPartGivenName ? 1 : 0);
+				result.MiddleName = String.Join(" ", nameParts.Skip(multiPartGivenName ? 2 : 1).Take(middleNameLength).ToArray());
 			}
 
 			HandleRunTogetherMiddleInitialAndSurname(result);

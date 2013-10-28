@@ -891,13 +891,14 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
-			public void Given__St_DOT_John_Smith__should_return_GivenName_St_DOT_John_Surname_Smith()
+			public void Given__San_Juan_Henry_Smith__should_return_GivenName_San_Juan_MiddleName_Henry_Surname_Smith()
 			{
-				const string input = "St. John Smith";
+				const string input = "San Juan Henry Smith";
 				var result = input.ParseName();
 				var expect = new NameParts
 				             {
-					             GivenName = "St. John",
+					             GivenName = "San Juan",
+					             MiddleName = "Henry",
 					             Surname = "Smith"
 				             };
 				Verify(result, expect);
@@ -911,6 +912,19 @@ namespace NameParsing.Tests
 				var expect = new NameParts
 				             {
 					             GivenName = "San Juan",
+					             Surname = "Smith"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
+			public void Given__St_DOT_John_Smith__should_return_GivenName_St_DOT_John_Surname_Smith()
+			{
+				const string input = "St. John Smith";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "St. John",
 					             Surname = "Smith"
 				             };
 				Verify(result, expect);
