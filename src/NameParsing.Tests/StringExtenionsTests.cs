@@ -11,6 +11,34 @@ namespace NameParsing.Tests
 		public class When_asked_to_parse_a_name
 		{
 			[Test]
+			public void Given__Al_H_Smith__should_return_GivenName_Al_MiddleName_H_Surname_Smith()
+			{
+				const string input = "Al H Smith";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "Al",
+					             MiddleName = "H",
+					             Surname = "Smith"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
+			public void Given__De_la_Rosa_Henry_Smith__should_return_GivenName_De_la_Rosa_MiddleName_Henry_Surname_Smith()
+			{
+				const string input = "De la Rosa Henry Smith";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "De la Rosa",
+					             MiddleName = "Henry",
+					             Surname = "Smith"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__JOHN_KAIDII__should_return_GivenName_JOHN_Surname_KAIDII()
 			{
 				const string input = "JOHN KAIDII";
@@ -898,20 +926,6 @@ namespace NameParsing.Tests
 				var expect = new NameParts
 				             {
 					             GivenName = "San Juan",
-					             MiddleName = "Henry",
-					             Surname = "Smith"
-				             };
-				Verify(result, expect);
-			}
-
-			[Test]
-			public void Given__De_la_Rosa_Henry_Smith__should_return_GivenName_De_la_Rosa_MiddleName_Henry_Surname_Smith()
-			{
-				const string input = "De la Rosa Henry Smith";
-				var result = input.ParseName();
-				var expect = new NameParts
-				             {
-								 GivenName = "De la Rosa",
 					             MiddleName = "Henry",
 					             Surname = "Smith"
 				             };

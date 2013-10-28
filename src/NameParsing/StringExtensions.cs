@@ -22,21 +22,18 @@ namespace NameParsing
 		private static string[] HandleMultiPartGivenName(NameParts result, string[] nameParts)
 		{
 			var given = result.GivenName ?? "";
-
-			var isTwoWordNamePrefix = SingleWordNamePrefixes.Any(x => given.Equals(x, StringComparison.OrdinalIgnoreCase));
-			if (isTwoWordNamePrefix)
+			var threeWordSurnamePrefix = new[] { given, nameParts[0] };
+			if (nameParts.Length > 2 && nameParts[1].Length > 1 &&
+				IsTwoPartSurnamePrefix(threeWordSurnamePrefix))
 			{
-				var threeWordSurnamePrefix = new[] { given, nameParts[0] };
-				if (IsTwoPartSurnamePrefix(threeWordSurnamePrefix))
-				{
-					result.GivenName = given + " " + String.Join(" ", nameParts.Take(2));
-					nameParts = nameParts.Skip(2).ToArray();
-				}
-				else
-				{
-					result.GivenName += " " + nameParts.First();
-					nameParts = nameParts.Skip(1).ToArray();
-				}
+				result.GivenName += " " + String.Join(" ", nameParts.Take(2));
+				nameParts = nameParts.Skip(2).ToArray();
+			}
+			else if (nameParts.Length > 1 && nameParts[0].Length > 1 &&
+				SingleWordNamePrefixes.Any(x => given.Equals(x, StringComparison.OrdinalIgnoreCase)))
+			{
+				result.GivenName += " " + nameParts.First();
+				nameParts = nameParts.Skip(1).ToArray();
 			}
 			return nameParts;
 		}
