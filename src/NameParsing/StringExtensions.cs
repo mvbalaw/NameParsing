@@ -6,7 +6,7 @@ namespace NameParsing
 {
 	public static class StringExtensions
 	{
-		private static readonly string[] SingleWordNamePrefixes = { "al", "da", "de", "dela", "del", "di", "du", "el", "la", "le", "lo", "mac", "mc", "saint", "san", "st", "st.", "van", "von" };
+		private static readonly string[] SingleWordNamePrefixes = { "al", "da", "de", "dela", "del", "den", "di", "du", "el", "la", "le", "lo", "mac", "mc", "saint", "san", "st", "st.", "van", "von" };
 
 		private static void HandleDoubleWordSurnamePrefix(NameParts result, ICollection<string> parts)
 		{

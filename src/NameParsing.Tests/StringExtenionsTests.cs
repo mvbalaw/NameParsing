@@ -198,6 +198,19 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__John_Den_Ecke__should_return_GivenName_John_Surname_Den_Ecke()
+			{
+				const string input = "John Den Ecke";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             Surname = "Den Ecke"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__John_Di_Marco__should_return_GivenName_John_Surname_Di_Marco()
 			{
 				const string input = "John Di Marco";
