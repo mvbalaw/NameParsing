@@ -292,6 +292,20 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__John_H_O_Oxford__should_return_GivenName_John_MiddleName_H_O_Surname_Oxford()
+			{
+				const string input = "John H O Oxford";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             MiddleName = "H O",
+					             Surname = "Oxford"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__John_H_Smith__should_return_GivenName_John_MiddleName_H_Surname_Smith()
 			{
 				const string input = "John H Smith";

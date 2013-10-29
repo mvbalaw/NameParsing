@@ -129,7 +129,8 @@ namespace NameParsing
 				return;
 			}
 			var indexOfPrefix = IndexOfAnyCaseInsensitive(parts, "o");
-			if (indexOfPrefix != parts.Count - 1)
+			if (indexOfPrefix != parts.Count - 1 ||
+				result.Surname.StartsWith("o", StringComparison.OrdinalIgnoreCase))
 			{
 				return;
 			}
