@@ -39,6 +39,15 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__EMPTY_STRING__should_return_an_empty_NameParts_object()
+			{
+				const string input = "";
+				var result = input.ParseName();
+				var expect = new NameParts();
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__JOHN_KAIDII__should_return_GivenName_JOHN_Surname_KAIDII()
 			{
 				const string input = "JOHN KAIDII";
@@ -946,6 +955,15 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__NULL__should_return_an_empty_NameParts_object()
+			{
+				const string input = null;
+				var result = input.ParseName();
+				var expect = new NameParts();
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__San_Juan_Henry_Smith__should_return_GivenName_San_Juan_MiddleName_Henry_Surname_Smith()
 			{
 				const string input = "San Juan Henry Smith";
@@ -982,6 +1000,15 @@ namespace NameParsing.Tests
 					             GivenName = "St. John",
 					             Surname = "Smith"
 				             };
+				Verify(result, expect);
+			}
+
+			[Test]
+			public void Given__WHITESPACE__should_return_an_empty_NameParts_object()
+			{
+				const string input = " \t\f\r\n";
+				var result = input.ParseName();
+				var expect = new NameParts();
 				Verify(result, expect);
 			}
 

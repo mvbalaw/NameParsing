@@ -245,6 +245,15 @@ namespace NameParsing
 		public static NameParts ParseName(this string name)
 		{
 			var result = new NameParts();
+			if (name == null)
+			{
+				return result;
+			}
+			name = name.Trim();
+			if (String.IsNullOrEmpty(name))
+			{
+				return result;
+			}
 			name = NameWithoutAliases(name);
 
 			var sections = name.Split(',');
