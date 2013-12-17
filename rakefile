@@ -2,9 +2,9 @@ require 'albacore'
 
 PRODUCT_NAME = "NameParsing"
 CLR_TOOLS_VERSION = "v4.0.30319"
-DEFAULT_BUILD_NUMBER = "0.0.0"
+DEFAULT_BUILD_NUMBER = "1.0.0"
 COMPANY_NAME = "MVBA, P.C."
-COPYRIGHT = "MVBA, P.C. (c) 2011-2013"
+COPYRIGHT = "MVBA, P.C. (c) 2013"
 ARTIFACTS = File.expand_path("dist")
 COMPILE_TARGET = "Debug"
 STAGE = File.expand_path("build")
@@ -93,6 +93,8 @@ task :copy_artifacts => [:build] do
   puts "Copying files from bin folders to the build folder (#{settings[:stage]})..."
   copy_output_files "src/#{PRODUCT_NAME}/bin/#{settings[:compile_target]}", "*.{dll,pdb,exe}", settings[:stage]
   copy_output_files "src/#{PRODUCT_NAME}.Tests/bin/#{settings[:compile_target]}", "*.{dll,pdb,exe}", settings[:stage]
+  FileUtils.cp_r "License.txt", "#{settings[:stage]}/#{PRODUCT_NAME}.License.txt"
+  FileUtils.cp_r "Provenance.txt", "#{settings[:stage]}/#{PRODUCT_NAME}.Provenance.txt"
 end
 
 desc "Prepares the working directory for a new build"
@@ -122,6 +124,7 @@ zip :archive do |zip|
   zip.output_path = [settings[:artifacts]]
   puts "Artifacts are available in the artifact folder: #{settings[:artifacts]}"
 end
+
 
 def copy_output_files(fromDir, filePattern, outDir)
   Dir.glob(File.join(fromDir, filePattern)){|file| 		

@@ -1,0 +1,3 @@
+source: NameParsing http://github.com/mvbalaw/NameParsing
+
+license source: http://www.opensource.org/licenses/mit-license.php
