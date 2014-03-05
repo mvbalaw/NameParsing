@@ -141,6 +141,20 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__John_DOUBLEQUOTE_Johnie_DOUBLEQUOTE_Smith__should_return_GivenName_John_MiddleName_Johnie_Surname_Smith()
+			{
+				const string input = "John \"Johnie\" Smith";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             MiddleName = "Johnie",
+					             Surname = "Smith"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__John_DeLa_Rosa__should_return_GivenName_John_Surname_DeLa_Rosa()
 			{
 				const string input = "John DeLa Rosa";
