@@ -423,6 +423,19 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__John_O_QUOTE_Connell__should_return_GivenName_John_Surname_O_QUOTE_Connell()
+			{
+				const string input = "John O'Connell";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             Surname = "O'Connell"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__John_SPACE_SPACE_H_Smith__should_return_GivenName_John_MiddleName_H_Surname_Smith()
 			{
 				const string input = "John  H Smith";
@@ -499,6 +512,19 @@ namespace NameParsing.Tests
 					             GivenName = "John",
 					             Surname = "Smith",
 					             Suffix = "MD, PA"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
+			public void Given__John_Smith_DASH_White__should_return_GivenName_John_Surname_Smith_DASH_White()
+			{
+				const string input = "John Smith-White";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             Surname = "Smith-White"
 				             };
 				Verify(result, expect);
 			}

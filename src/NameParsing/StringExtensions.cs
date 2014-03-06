@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
 
 namespace NameParsing
 {
@@ -257,7 +256,7 @@ namespace NameParsing
 			}
 			name = NameWithoutAliases(name);
 
-			name = new string(name.Where(x => Char.IsLetter(x) || Char.IsWhiteSpace(x) || x == '.' || x == ',').ToArray());
+			name = name.Replace('\"', ' ');
 
 			var sections = name.Split(',');
 			var nameParts = sections.First().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
