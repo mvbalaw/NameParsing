@@ -237,7 +237,15 @@ namespace NameParsing
 			index = name.IndexOf('(');
 			if (index != -1)
 			{
-				name = name.Substring(0, index);
+				var end = name.IndexOf(')', index);
+				if (end != -1)
+				{
+					name = name.Substring(0, index) + name.Substring(1+end);
+				}
+				else
+				{
+					name = name.Substring(0, index);
+				}
 			}
 			return name.Trim();
 		}
