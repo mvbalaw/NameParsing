@@ -1065,6 +1065,16 @@ namespace NameParsing.Tests
 				Verify(result, expect);
 			}
 
+
+			[Test]
+			public void Given__LPAREN__should_return_an_empty_NameParts_object()
+			{
+				const string input = "(";
+				var result = input.ParseName();
+				var expect = new NameParts();
+				Verify(result, expect);
+			}
+
 			private static void Verify(NameParts result, NameParts expected)
 			{
 				result.Prefix.ShouldBeEqualTo(expected.Prefix);

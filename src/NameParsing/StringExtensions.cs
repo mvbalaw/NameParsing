@@ -103,7 +103,7 @@ namespace NameParsing
 
 		private static void HandleRunTogetherMiddleInitialAndSurname(NameParts result)
 		{
-			if (result.Surname.Length > 2 && result.Surname[1] == '.')
+			if (result.Surname != null && result.Surname.Length > 2 && result.Surname[1] == '.')
 			{
 				result.MiddleName = (result.MiddleName ?? "" + " " + result.Surname.Substring(0, 2)).Trim();
 				result.Surname = result.Surname.Substring(2);
@@ -168,7 +168,7 @@ namespace NameParsing
 					index = valueIndex;
 				}
 			}
-			return index == null ? -1 : index.Value;
+			return index ?? -1;
 		}
 
 		private static int IndexOfCaseInsensitive(this IEnumerable<string> items, string value)
@@ -270,8 +270,12 @@ namespace NameParsing
 			var nameParts = sections.First().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
 			nameParts = HandleNameSuffix(sections, result, nameParts);
-			nameParts = HandleNamePrefix(nameParts, result);
-			nameParts = HandleRunTogetherInitialsInGivenName(nameParts);
+
+			if (nameParts.Length > 1)
+			{
+				nameParts = HandleNamePrefix(nameParts, result);
+				nameParts = HandleRunTogetherInitialsInGivenName(nameParts);
+			}
 
 			if (nameParts.Length > 1)
 			{
@@ -280,10 +284,13 @@ namespace NameParsing
 				nameParts = HandleMultiPartGivenName(result, nameParts);
 			}
 
-			result.Surname = nameParts.Last();
-			if (nameParts.Length > 1)
+			if (nameParts.Length > 0)
 			{
-				result.MiddleName = String.Join(" ", nameParts.Take(nameParts.Length - 1).ToArray());
+				result.Surname = nameParts.Last();
+				if (nameParts.Length > 1)
+				{
+					result.MiddleName = String.Join(" ", nameParts.Take(nameParts.Length - 1).ToArray());
+				}
 			}
 
 			HandleRunTogetherMiddleInitialAndSurname(result);
