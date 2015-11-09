@@ -260,6 +260,20 @@ namespace NameParsing.Tests
 			}
 
 			[Test]
+			public void Given__John_D_DOT_W_DOT_Du_Puis__should_return_GivenName_John_MiddleName_H_DOT_W_DOT_Surname_Du_Puis()
+			{
+				const string input = "John D. W. Du Puis";
+				var result = input.ParseName();
+				var expect = new NameParts
+				             {
+					             GivenName = "John",
+					             MiddleName = "D. W.",
+					             Surname = "Du Puis"
+				             };
+				Verify(result, expect);
+			}
+
+			[Test]
 			public void Given__John_El_Cid__should_return_GivenName_John_Surname_El_Cid()
 			{
 				const string input = "John El Cid";
