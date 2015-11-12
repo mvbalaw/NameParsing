@@ -16,3 +16,5 @@ TestResult.xml
 CommonAssemblyInfo.cs
 !tools/NUnit/bin
 dist.bat
+src/packages
+src/*.Tests/FluentAssert.*
