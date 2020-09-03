@@ -18,3 +18,4 @@ CommonAssemblyInfo.cs
 dist.bat
 src/packages
 src/*.Tests/FluentAssert.*
+src/.vs
