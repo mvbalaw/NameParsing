@@ -1,0 +1,2 @@
+# artifacts is where the nuget package gets created.
+:artifacts: //fsJump/dev/Build Artifacts/NameParsing/master
